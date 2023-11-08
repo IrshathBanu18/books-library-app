@@ -13,6 +13,7 @@ const {
   updaterating,
   getratingbyid,
   deleteratingbyid,
+  searchbook
 } = require("./db");
 const Joi = require("joi");
 const app = express();
@@ -149,6 +150,30 @@ app.post("/books/:bookid/rating", (req, res) => {
   });
   return res.json(rating);
 });
+app.get("/books", (req, res, next) => {
+  const searchvalue = req.query.search;
+
+  if (searchvalue) {
+    const books = searchbook(searchTerm);
+    if (!books) {
+      return next({
+        status: 400,
+        message: "Failed to search books :" + searchvalue,
+      });
+    }
+    res.json(books);
+  } else {
+    const books = allbooks();
+    if (!books) {
+      return next({
+        status: 400,
+        message: "Failed to get all books",
+      });
+    }
+    res.json(books);
+  }
+});
+
 app.listen(config.appPort, () => {
   console.log(`Server running on ${config.appPort}`);
 });

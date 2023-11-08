@@ -117,6 +117,14 @@ const deleteratingbyid = (id) => {
   bookdsratings.splice(idx, 1);
   return deletedRating;
 };
+// search books
+const searchbook = (searchvalue) => {
+  const booksearch = books.filter((b) =>
+    b.title.toLowerCase().includes(searchvalue.toLowerCase())
+  );
+  return booksearch;
+};
+
 
 module.exports = {
   updatebooks,
@@ -127,7 +135,8 @@ module.exports = {
   addRating,
   updaterating ,
   getratingbyid ,
-  deleteratingbyid 
+  deleteratingbyid,
+  searchbook
 
 };
 
